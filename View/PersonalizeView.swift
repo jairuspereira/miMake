@@ -32,7 +32,7 @@ struct PersonalizeView: View {
                 }
             }
 
-            Section("Preview (mock)") {
+            Section("Preview") {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color(.secondarySystemBackground))
@@ -47,7 +47,7 @@ struct PersonalizeView: View {
 
             Section {
                 NavigationLink {
-                    CheckoutView(item: item, nameText: nameText)
+                    CheckoutView(item: item, mode: .personalized(name: nameText))
                 } label: {
                     Label("Continue to Checkout", systemImage: "creditcard")
                         .font(.body.bold())

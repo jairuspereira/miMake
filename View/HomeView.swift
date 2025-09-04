@@ -15,7 +15,7 @@ struct HomeView: View {
                     .font(.system(size: 56, weight: .thin))
                 Text("miMake")
                     .font(.largeTitle).bold()
-                Text("Premade 3D models with simple personalization")
+                Text("Ready‑made 3D models with simple personalization")
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -27,10 +27,8 @@ struct HomeView: View {
                             Label("Browse Catalog", systemImage: "square.grid.2x2")
                                 .font(.title3.bold())
                                 .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.thinMaterial)
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
+                        .buttonStyle(.borderedProminent)
             
             NavigationLink {
                             OrdersView()
@@ -38,10 +36,8 @@ struct HomeView: View {
                             Label("My Orders", systemImage: "shippingbox")
                                 .font(.title3.bold())
                                 .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.thinMaterial)
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
+                        .buttonStyle(.bordered)
             
             Spacer()
                  }
@@ -50,4 +46,3 @@ struct HomeView: View {
             
         }
     }
-

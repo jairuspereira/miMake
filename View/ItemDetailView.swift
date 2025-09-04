@@ -30,14 +30,22 @@ struct ItemDetailView: View {
                 }
                 .font(.title3)
 
-                NavigationLink {
-                    PersonalizeView(item: item)
-                } label: {
-                    Label("Personalize", systemImage: "textformat.alt")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(.blue.opacity(0.15))
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                VStack(spacing: 10) {
+                    NavigationLink {
+                        CheckoutView(item: item, mode: .standard)
+                    } label: {
+                        Label("Buy As‑Is", systemImage: "cart")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    NavigationLink {
+                        PersonalizeView(item: item)
+                    } label: {
+                        Label("Request Personalization", systemImage: "textformat.alt")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
                 }
                 .padding(.top, 8)
             }

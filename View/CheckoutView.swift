@@ -7,12 +7,24 @@
 
 import SwiftUI
 
+enum PurchaseMode: Equatable {
+    case standard
+    case personalized(name: String)
+}
+
 struct CheckoutView: View {
     let item: CatalogItem
-    let nameText: String
+    let mode: PurchaseMode
 
     private let personalizationFeeINR = 100
-    private var total: Int { item.priceINR + personalizationFeeINR }
+    private var total: Int {
+        switch mode {
+        case .standard:
+            return item.priceINR
+        case .personalized:
+            return item.priceINR + personalizationFeeINR
+        }
+    }
 
     var body: some View {
         List {
@@ -22,14 +34,18 @@ struct CheckoutView: View {
                     Spacer()
                     Text(Currency.formatINR(item.priceINR))
                 }
-                HStack {
-                    Text("Personalization")
-                    Spacer()
-                    Text(Currency.formatINR(personalizationFeeINR))
+                if case .personalized = mode {
+                    HStack {
+                        Text("Personalization")
+                        Spacer()
+                        Text(Currency.formatINR(personalizationFeeINR))
+                    }
                 }
             }
 
-            Section("Your text") { Text(nameText).bold() }
+            if case let .personalized(name) = mode {
+                Section("Your Text") { Text(name).bold() }
+            }
 
             Section {
                 HStack {
@@ -57,7 +73,7 @@ struct OrderSuccessView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: "checkmark.circle.fill").font(.system(size: 64))
-            Text("Order placed (mock)").font(.title3.bold())
+            Text("Order placed!").font(.title3.bold())
             Text("Amount: \(Currency.formatINR(amountINR))").foregroundStyle(.secondary)
             NavigationLink("Go to Orders") {
                 OrdersView()
