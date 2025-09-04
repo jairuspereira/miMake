@@ -11,25 +11,55 @@ struct CatalogListView: View {
     @StateObject private var vm = CatalogViewModel()
 
     var body: some View {
-        List(vm.items) { item in
-            NavigationLink {
-                ItemDetailView(item: item)
-            } label: {
-                HStack(spacing: 16) {
-                    Image(systemName: item.previewImageSystemName)
-                        .font(.system(size: 28))
-                        .frame(width: 44, height: 44)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(item.title).font(.headline)
-                        Text(item.summary).font(.subheadline).foregroundStyle(.secondary)
+        let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
+
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {              
+                ForEach(vm.items) { item in
+                    NavigationLink {
+                        ItemDetailView(item: item)
+                    } label: {
+                        CatalogItemCard(item: item)
                     }
-                    Spacer()
-                    Text(Currency.formatINR(item.priceINR))
-                        .font(.subheadline).bold()
+                    .buttonStyle(.plain)
                 }
-                .padding(.vertical, 4)
             }
+            .padding()
         }
         .navigationTitle("Catalog")
+    }
+}
+
+private struct CatalogItemCard: View {
+    let item: CatalogItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.secondarySystemBackground))
+                    .frame(height: 100)
+                Image(systemName: item.previewImageSystemName)
+                    .font(.system(size: 40))
+            }
+
+            Text(item.title)
+                .font(.headline)
+                .lineLimit(2)
+
+            Text(item.summary)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+
+            HStack {
+                Spacer()
+                Text(Currency.formatINR(item.priceINR))
+                    .font(.subheadline).bold()
+            }
+        }
+        .padding(12)
+        .background(.thinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
